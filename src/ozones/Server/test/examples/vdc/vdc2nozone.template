@@ -1,0 +1,3 @@
+NAME=testvdcnozone
+HOSTS=3,7
+ZONEID=5
