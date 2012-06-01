@@ -18,7 +18,7 @@
 
 SRC=$1
 DST=$2
-
+ONE_LOCATION="/opt/nebula/ONE"
 if [ -z "${ONE_LOCATION}" ]; then
     TMCOMMON=/usr/lib/one/mads/tm_common.sh
     VAR_LOCATION=/var/lib/one/
@@ -26,13 +26,17 @@ else
     TMCOMMON=$ONE_LOCATION/lib/mads/tm_common.sh
     VAR_LOCATION=$ONE_LOCATION/var/
 fi
-
 . $TMCOMMON
 
 get_vmdir
 
 SRC_PATH=`arg_path $SRC`
 DST_PATH=`arg_path $DST`
+
+#add by gaojp
+SRC_PATH=`arg_path $SRC_PATH`
+DST_PATH=`arg_path $DST_PATH`
+
 
 DST_DIR=`dirname $DST_PATH`
 
@@ -45,8 +49,10 @@ else
         log "Will not move, is not saving image"
     else
         log "Moving $SRC_PATH"
-        exec_and_log "mkdir -p $DST_DIR"
-        exec_and_log "cp -r $SRC_PATH $DST_PATH"
+        echo "mkdir -p $DST_DIR"
+        echo "cp -r $SRC_PATH $DST_PATH"
+        #exec_and_log "mkdir -p $DST_DIR"
+        #exec_and_log "cp -r $SRC_PATH $DST_PATH"
     fi
 fi
 
