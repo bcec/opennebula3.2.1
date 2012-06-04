@@ -79,8 +79,8 @@ else
 	    log "Cloning $SRC"
 	    exec_and_log "$SSH $DST_HOST mkdir -p ${DST_DIR}_compress" \
 		"Error creating directory ${DST_DIR}_compress"
-	    exec_and_log "$SCP ${SRC}.tgz ${DST_HOST}:${DST_DIR}_compress" \
-	        "Error copying ${SRC}.tgz to ${DST_HOST}:${DST_DIR}_compress"
+	    exec_and_log "$SCP $SRC $DST_HOST:${DST_DIR}_compress" \
+	        "Error copying $SRC to $DST"
 	    exec_and_log "$SSH $DST_HOST tar -xzvf ${DST_DIR}_compress/disk.0.tgz \
                           -C ${DST_DIR}  "
 	    exec_and_log "$SSH $DST_HOST rm -rf ${DST_DIR}_compress"
