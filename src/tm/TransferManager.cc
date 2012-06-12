@@ -960,81 +960,16 @@ error_common:
 
 void TransferManager::delete_backup_action(string bkdir,int vid)
 {
-    ofstream        xfr;
-    ostringstream   os;
-    string          xfr_name;
-    
-    Nebula&             nd = Nebula::instance();
-    VirtualMachine *    vm;
-
-    const TransferManagerDriver * tm_md;
-
-    // ------------------------------------------------------------------------
-    // Setup & Transfer script
-    // ------------------------------------------------------------------------
-
-    vm = vmpool->get(vid,true);
-
-    if (vm == 0)
-    {
-        return;
-    }
-
-    if (!vm->hasHistory())
-    {
-        goto error_history;
-    }
-
-    tm_md = get(vm->get_tm_mad());
-
-    if ( tm_md == 0 )
-    {
-        goto error_driver;
-    }
-    
-    xfr_name = vm->get_transfer_file() + ".delete_vm_backup";
-    xfr.open(xfr_name.c_str(), ios::out | ios::trunc);
-
-    if (xfr.fail() == true)
-    {
-        goto error_file;
-    }
+    Nebula&     nd = Nebula::instance();
 
     // ------------------------------------------------------------------------
     // Delete the remote VM Directory
     // ------------------------------------------------------------------------
-    
-    xfr << "DELETE " << nd.get_nebula_hostname() <<":"<< bkdir << endl;
+    string delete_backup_cmd;
+    delete_backup_cmd = "/opt/nebula/ONE/lib/tm_commands/ssh/delete_backup.sh " + nd.get_nebula_hostname() +" "+ bkdir ;
+	char const *cmd = delete_backup_cmd.c_str();
+	system(cmd);
 
-    xfr.close();
-
-    tm_md->transfer(vid,xfr_name);
-
-    vm->unlock();
-
-    return;
-
-error_history:
-    os.str("");
-    os << "epilog_delete, VM " << vid << " has no history";
-    goto error_common;
-
-error_file:
-    os.str("");
-    os << "epilog_delete, could not open file: " << xfr_name;
-    os << ". You may need to manually clean " << vm->get_hostname() 
-       << ":" << vm->get_remote_dir();
-    goto error_common;
-
-error_driver:
-    os.str("");
-    os << "epilog_delete, error getting driver " << vm->get_vmm_mad();
-    os << ". You may need to manually clean " << vm->get_hostname() 
-       << ":" << vm->get_remote_dir();
-
-error_common:
-    vm->log("TM", Log::ERROR, os);
-    vm->unlock();
 
     return;
 }

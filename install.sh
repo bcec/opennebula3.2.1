@@ -789,7 +789,8 @@ SSH_TM_COMMANDS_LIB_FILES="src/tm_mad/ssh/tm_clone.sh \
                            src/tm_mad/ssh/tm_decompress.sh \
                            src/tm_mad/ssh/xm_list.sh \
                            src/tm_mad/ssh/tm_rename.sh \
-                           src/tm_mad/ssh/tm_context.sh"
+                           src/tm_mad/ssh/tm_context.sh \
+			   src/tm_mad/ssh/delete_backup.sh"
 
 DUMMY_TM_COMMANDS_LIB_FILES="src/tm_mad/dummy/tm_dummy.sh"
 
