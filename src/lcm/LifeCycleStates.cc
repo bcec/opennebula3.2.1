@@ -1171,6 +1171,10 @@ void  LifeCycleManager::cancel_failure_action(int vid)
     {
           vmpool->updatebkstate(vm->updatebkstateoid,Backup::RESUME_FAIL );
     }
+	else if(vm->get_lcm_state() == VirtualMachine::OFF_BACKUPDISK)
+	{     
+          vmpool->updatedkstate(vm->dkbid,BackupDisk::BACKUPDISK_FAIL );      
+	}
 
     //----------------------------------------------------
     //    RUNNING STATE FROM CANCEL
