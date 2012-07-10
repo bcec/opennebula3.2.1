@@ -61,7 +61,7 @@ class OpenNebulaHM < OpenNebulaNetwork
     end
 
     def create_bridge(bridge)
-        OpenNebula.exec_and_log("#{COMMANDS[:brctl]} addbr #{bridge}")
+        OpenNebula.exec_and_log_no_exit("#{COMMANDS[:brctl]} addbr #{bridge}")
     end
 
     def device_exists?(dev, vlan=nil)
